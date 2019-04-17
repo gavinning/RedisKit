@@ -1,5 +1,5 @@
 {
-  "name": "redis-kit",
+  "name": "god-redis-kit",
   "version": "0.0.1",
   "description": "redis kit",
   "main": "src/app.js",
