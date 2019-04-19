@@ -23,7 +23,7 @@ Redis安全线程，后端为集群部署时常用于检查某项行为或消费
 <font color=#777 size=2>检查重复消费</font>
 ```js
 const incr = Increment.create('test:Increment', 'isRepeat')
-await incr.incrememt()
+await incr.increment()
 assert.ok(await incr.isRepeat(60))
 ```
 
@@ -38,7 +38,7 @@ assert.ok(await incr.isNotRepeat(1))
 <font color=#777 size=2>检查库存</font>
 ```js
 const incr = Increment.create('test:Increment', 'isOutRange')
-await incr.incrememt()
+await incr.increment()
 assert.ok(await incr.isOutRange({ max: 1 }))
 ```
 
@@ -53,7 +53,7 @@ assert.ok(await incr.isInRange({ max: 1, timeout: 1 }))
 <font color=#777 size=2>查询消费次数</font>
 ```js
 const incr = Increment.create('test:Increment', 'getTimes')
-await incr.incrememt(1)
+await incr.increment(1)
 assert.ok(await incr.getTimes() === 1)
 ```
 
@@ -61,7 +61,7 @@ assert.ok(await incr.getTimes() === 1)
 <font color=#777 size=2>清理消费记录</font>
 ```js
 const incr = Increment.create('test:Increment', 'clear')
-await incr.incrememt()
+await incr.increment()
 await incr.clear()
 assert.ok(await incr.getTimes() === 0)
 ```
@@ -70,7 +70,7 @@ assert.ok(await incr.getTimes() === 0)
 <font color=#777 size=2>是否存在消费历史</font>
 ```js
 const incr = Increment.create('test:Increment', 'hasHistory')
-await incr.incrememt(1)
+await incr.increment(1)
 assert.ok(await incr.hasHistory())
 ```
 

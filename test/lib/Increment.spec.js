@@ -7,7 +7,7 @@ describe('Class Increment test', async() => {
 
     it('test isRepeat', async() => {
         const incr = Increment.create('test:Increment', 'isRepeat')
-        await incr.incrememt()
+        await incr.increment()
         assert.ok(await incr.isRepeat(60))
     })
 
@@ -18,7 +18,7 @@ describe('Class Increment test', async() => {
 
     it('test isOutRange', async() => {
         const incr = Increment.create('test:Increment', 'isOutRange')
-        await incr.incrememt()
+        await incr.increment()
         assert.ok(await incr.isOutRange({ max: 1 }))
     })
 
@@ -29,20 +29,20 @@ describe('Class Increment test', async() => {
 
     it('test getTimes', async() => {
         const incr = Increment.create('test:Increment', 'getTimes')
-        await incr.incrememt(1)
+        await incr.increment(1)
         assert.ok(await incr.getTimes() === 1)
     })
 
     it('test clear', async() => {
         const incr = Increment.create('test:Increment', 'clear')
-        await incr.incrememt()
+        await incr.increment()
         await incr.clear()
         assert.ok(await incr.getTimes() === 0)
     })
 
     it('test hasHistory', async() => {
         const incr = Increment.create('test:Increment', 'hasHistory')
-        await incr.incrememt(1)
+        await incr.increment(1)
         assert.ok(await incr.hasHistory())
     })
 })

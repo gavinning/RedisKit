@@ -1,5 +1,5 @@
 /**
- * incrememt
+ * increment
  * @desc 安全线程计数
  * @date 2019-01-23
  * @author gavinning gavinning@qq.com
@@ -9,10 +9,10 @@
  *
  */
 
-class Incrememt {
+class Increment {
     constructor({ key }) {
         this.key = key
-        this.redis = Incrememt.redis
+        this.redis = Increment.redis
     }
 
     // 重复消费
@@ -27,18 +27,18 @@ class Incrememt {
 
     // 检查是否超出消费额度
     async isOutRange({ max, timeout }) {
-        const times = await this.incrememt(timeout)
+        const times = await this.increment(timeout)
         return times > max
     }
 
     // 检查消费是否在库存之内
     async isInRange({ max, min = 0, timeout }) {
-        const times = await this.incrememt(timeout)
+        const times = await this.increment(timeout)
         return times >= min && times <= max
     }
 
     // 新增一次消费计数
-    async incrememt(timeout) {
+    async increment(timeout) {
         const times = await this.redis.incr(this.key)
         this.expire(timeout)
         return times
@@ -70,7 +70,7 @@ class Incrememt {
 
     static init() {
         const key = this.getKey(...arguments)
-        return new Incrememt({ key })
+        return new Increment({ key })
     }
 
     static create() {
@@ -79,6 +79,6 @@ class Incrememt {
 }
 
 module.exports = (redis) => {
-    Incrememt.redis = redis
-    return Incrememt
+    Increment.redis = redis
+    return Increment
 }
