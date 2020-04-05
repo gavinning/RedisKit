@@ -1,79 +1,77 @@
 RedisKit
 ---
-依赖Redis的一些常用工具
+Redis工具包
 
 ### Install
 ```sh
-npm i god-redis-kit --save
+npm i @4a/rediskit
 ```
 
 ### Usage
 ```js
-// redis client需支持promise
-// 推荐使用ioredis创建redis client
-const redis = require('./your-redis-client')
-const { Increment } = require('god-redis-kit')(redis)
-const assert = require('assert')
+// redis client需支持promise, 推荐使用ioredis
+const redis = require('ioredis')()
+const { Stock, Increment } = require('@4a/rediskit')(redis)
 ```
+
+### Stock
+基于``Redis``简单的队列操作
+```js
+Stock.init('app:stock:apple')
+Stock.init('app:stock', apple)
+Stock.init('app:stock', apple, 'price', ...)
+
+
+const stock = Stock.init('app:stock:apple', id)
+
+await stock.get()
+await stock.set(arr, time)
+await stock.save(arr, time)
+
+await stock.prepend(item)
+await stock.append(item)
+await stock.pop()
+await stock.shift()
+await stock.remove(item)
+await stock.remove(item => item.type === 1)
+
+await stock.find(callback)
+await stock.findIndex(callback)
+
+await stock.map(callback)
+await stock.each(callback)
+await stock.slice(start, end)
+
+await stock.clear()
+await stock.expire()
+await stock.expire(60)
+```
+
 
 ### Increment API
-Redis安全线程，后端为集群部署时常用于检查某项行为或消费是否符合预期
-
-**isRepeat**  
-<font color=#777 size=2>检查重复消费</font>
+基于``Redis.incr``的安全计数
 ```js
-const incr = Increment.create('test:Increment', 'isRepeat')
-await incr.increment()
-assert.ok(await incr.isRepeat(60))
-```
+Increment.init('app:incr:apple')
+Increment.init('app:stock', apple, 'price', ...)
 
-**isNotRepeat**  
-<font color=#777 size=2>检查重复消费</font>
-```js
-const incr = Increment.create('test:Increment', 'isNotRepeat')
-assert.ok(await incr.isNotRepeat(1))
-```
+const increment = Increment.init('app:stock:apple', id)
 
-**isOutRange**  
-<font color=#777 size=2>检查库存</font>
-```js
-const incr = Increment.create('test:Increment', 'isOutRange')
-await incr.increment()
-assert.ok(await incr.isOutRange({ max: 1 }))
-```
+await increment.isRepeat()
+await increment.isNotRepeat()
 
-**isInRange**  
-<font color=#777 size=2>检查库存</font>
-```js
-const incr = Increment.create('test:Increment', 'isInRange')
-assert.ok(await incr.isInRange({ max: 1, timeout: 1 }))
-```
+await increment.isOutRange(10)
+await increment.isInRange(10)
+await increment.isInRange(10, 3)
 
-**getTimes**  
-<font color=#777 size=2>查询消费次数</font>
-```js
-const incr = Increment.create('test:Increment', 'getTimes')
-await incr.increment(1)
-assert.ok(await incr.getTimes() === 1)
-```
+await increment.increment()
+await increment.decrement()
 
-**clear**  
-<font color=#777 size=2>清理消费记录</font>
-```js
-const incr = Increment.create('test:Increment', 'clear')
-await incr.increment()
-await incr.clear()
-assert.ok(await incr.getTimes() === 0)
-```
-
-**hasHistory**  
-<font color=#777 size=2>是否存在消费历史</font>
-```js
-const incr = Increment.create('test:Increment', 'hasHistory')
-await incr.increment(1)
-assert.ok(await incr.hasHistory())
+await increment.clear()
+await increment.expire()
+await increment.expire(60)
 ```
 
 &nbsp;
+Example
 ---
 > npm test
