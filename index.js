@@ -11,15 +11,11 @@
 
 
 module.exports = (redis) => {
-    // const App = require('./lib/app')(redis)
+    const Stock = require('./lib/stock')(redis)
     const Increment = require('./lib/increment')(redis)
-    // const Lock = require('./lib/lock')(redis)
-    // const Stock = require('./lib/stock')(redis)
 
     return {
-        // App,
+        Stock,
         Increment,
-        // Lock,
-        // Stock
     }
 }
