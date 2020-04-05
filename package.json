@@ -1,6 +1,6 @@
 {
   "name": "@4a/rediskit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "redis kit",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/gavinning/RedisKit#readme",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^6.0.2",
-    "ioredis": "^4.6.2"
+    "ioredis": "^4.16.1",
+    "mocha": "^7.1.1"
   }
 }
